@@ -12,13 +12,17 @@ public class Application {
     public static void main(String[] args) {
         ProductService productService = (ProductService) injector.getInstance(ProductService.class);
 
-        productService.create(new Product("iPhoneX", 1000));
-        productService.create(new Product("MacBook", 2000));
-        productService.create(new Product("iMac", 1800));
+        Product phone = new Product("iPhoneX", 1000);
+        Product notebook = new Product("MacBook", 2000);
+        Product desktop = new Product("iMac", 1800);
 
-        productService.delete(1L);
+        productService.create(phone);
+        productService.create(notebook);
+        productService.create(desktop);
 
         List<Product> productList = Storage.getAllProducts();
+
+        productService.delete(phone.getId());
 
         System.out.println(productList);
     }
