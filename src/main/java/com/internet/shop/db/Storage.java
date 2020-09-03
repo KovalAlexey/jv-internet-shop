@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
+    public static final List<Product> products = new ArrayList<>();
     private static Long productId = 0L;
-    private static final List<Product> products = new ArrayList<>();
 
     public static void addProduct(Product product) {
         productId++;
@@ -16,13 +16,5 @@ public class Storage {
 
     public static List<Product> getAllProducts() {
         return products;
-    }
-
-    public static boolean remove(Product product) {
-        if (products.contains(product)) {
-            products.remove(product);
-            return true;
-        }
-        return false;
     }
 }

@@ -1,6 +1,5 @@
 package com.internet.shop;
 
-import com.internet.shop.db.Storage;
 import com.internet.shop.lib.Injector;
 import com.internet.shop.model.Product;
 import com.internet.shop.service.ProductService;
@@ -20,9 +19,13 @@ public class Application {
         productService.create(notebook);
         productService.create(desktop);
 
-        List<Product> productList = Storage.getAllProducts();
+        Product newDesktop = productService.get(3L);
+        newDesktop.setPrice(1500);
+        productService.update(newDesktop);
 
         productService.delete(phone.getId());
+
+        List<Product> productList = productService.getAll();
 
         System.out.println(productList);
     }
