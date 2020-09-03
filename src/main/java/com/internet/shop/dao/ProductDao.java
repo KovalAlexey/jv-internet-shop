@@ -14,7 +14,5 @@ public interface ProductDao {
 
     boolean deleteById(Long productId);
 
-    boolean deleteItem(Product product);
-
     List<Product> getAllProducts();
 }
