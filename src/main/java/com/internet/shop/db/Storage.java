@@ -13,8 +13,4 @@ public class Storage {
         product.setId(productId);
         products.add(product);
     }
-
-    public static List<Product> getAllProducts() {
-        return products;
-    }
 }

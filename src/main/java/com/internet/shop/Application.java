@@ -19,7 +19,7 @@ public class Application {
         productService.create(notebook);
         productService.create(desktop);
 
-        Product newDesktop = productService.get(3L);
+        Product newDesktop = productService.get(desktop.getId());
         newDesktop.setPrice(1500);
         productService.update(newDesktop);
 
