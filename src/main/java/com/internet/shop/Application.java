@@ -28,6 +28,5 @@ public class Application {
         List<Product> productList = productService.getAll();
 
         System.out.println(productList);
-
     }
 }
