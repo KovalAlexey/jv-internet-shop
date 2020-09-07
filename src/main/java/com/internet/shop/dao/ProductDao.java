@@ -8,11 +8,11 @@ public interface ProductDao {
 
     Product create(Product product);
 
-    Optional<Product> getById(Long productId);
+    Optional<Product> get(Long productId);
 
     Product update(Product product);
 
-    boolean deleteById(Long productId);
+    boolean delete(Long productId);
 
     List<Product> getAllProducts();
 }
