@@ -10,7 +10,7 @@
 <table border="1">
     <tr>
         <th>ID</th>
-        <th>Name</th>
+        <th>Login</th>
         <th>Option</th>
     </tr>
     <c:forEach var="user" items="${users}">
@@ -19,11 +19,15 @@
                 <c:out value="${user.id}"/>
             </td>
             <td>
-                <c:out value="${user.name}"/>
+                <c:out value="${user.login}"/>
+            </td>
+            <td>
+                <a href="${pageContext.request.contextPath}/users/delete?id=${user.id}">Delete</a>
             </td>
         </tr>
     </c:forEach>
 </table>
-
+<a href="${pageContext.request.contextPath}/users/registration">Add user</a>
+<a href="${pageContext.request.contextPath}/">Back to main</a>
 </body>
 </html>
