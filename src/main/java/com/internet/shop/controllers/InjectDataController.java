@@ -13,22 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 
 public class InjectDataController extends HttpServlet {
     private static final Injector injector = Injector.getInstance("com.internet.shop");
-    private final UserService userService = (UserService) injector.getInstance(UserService.class);
-    private final ProductService productService =
+    private UserService userService = (UserService) injector.getInstance(UserService.class);
+    private ProductService productService =
             (ProductService) injector.getInstance(ProductService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        User alice = new User("Alice", "alice", "1");
-        User bob = new User("Bob", "bob", "2");
-        userService.create(alice);
-        userService.create(bob);
+        userService.create(new User("Alice", "alice", "1"));
+        userService.create(new User("Bob", "bob", "2"));
 
-        Product phone = new Product("iPhone", 1200);
-        Product note = new Product("MacBook", 2000);
-        productService.create(phone);
-        productService.create(note);
+        productService.create(new Product("iPhone", 1200));
+        productService.create(new Product("MacBook", 2000));
         req.getRequestDispatcher("/WEB-INF/views/injectData.jsp").forward(req, resp);
     }
 }

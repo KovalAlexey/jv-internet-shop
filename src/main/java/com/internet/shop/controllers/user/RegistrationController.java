@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegistrationController extends HttpServlet {
     private static final Injector injector = Injector.getInstance("com.internet.shop");
-    private final UserService userService = (UserService) injector.getInstance(UserService.class);
-    private final ShoppingCartService cartService =
+    private UserService userService = (UserService) injector.getInstance(UserService.class);
+    private ShoppingCartService cartService =
             (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
     @Override

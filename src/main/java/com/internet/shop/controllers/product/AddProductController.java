@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AddProductController extends HttpServlet {
     private static final Injector injector = Injector.getInstance("com.internet.shop");
-    private final ProductService productService =
+    private ProductService productService =
             (ProductService) injector.getInstance(ProductService.class);
 
     @Override
@@ -19,6 +19,10 @@ public class AddProductController extends HttpServlet {
             throws ServletException, IOException {
         String name = req.getParameter("name");
         Double price = Double.valueOf(req.getParameter("price"));
+        if (name.length() == 0) {
+            req.setAttribute("message", "Please fill all required fields again!");
+            req.getRequestDispatcher("/WEB-INF/views/products/newProduct.jsp").forward(req, resp);
+        }
         Product product = new Product(name, price);
         productService.create(product);
         req.setAttribute("message", "Your product was created successfully! You can add new one!");
