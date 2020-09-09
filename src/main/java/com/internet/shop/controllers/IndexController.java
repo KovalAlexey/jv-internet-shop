@@ -1,6 +1,7 @@
 package com.internet.shop.controllers;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,8 @@ public class IndexController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/views/index.jsp").forward(req, resp);
+        String timeValue = LocalDateTime.now().toString();
+        req.setAttribute("time", timeValue);
+        req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
     }
 }

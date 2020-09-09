@@ -5,6 +5,7 @@
 </head>
 <body>
 <h1>Hello Mates!</h1>
+<h2>Current time is: ${time}</h2>
 
 </body>
 </html>

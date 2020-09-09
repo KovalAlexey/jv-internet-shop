@@ -6,10 +6,8 @@ public class User {
     private String login;
     private String password;
 
-    public User(String name, String login, String password) {
+    public User(String name) {
         this.name = name;
-        this.login = login;
-        this.password = password;
     }
 
     public Long getId() {

@@ -10,6 +10,27 @@
     
     <servlet-mapping>
         <servlet-name>index</servlet-name>
-        <url-pattern>/index</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+            <servlet-name>allUsers</servlet-name>
+            <servlet-class>com.internet.shop.controllers.UserController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+            <servlet-name>allUsers</servlet-name>
+            <url-pattern>/users/all</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>registration</servlet-name>
+        <servlet-class>com.internet.shop.controllers.RegistrationController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>registration</servlet-name>
+        <url-pattern>/users/registration</url-pattern>
+    </servlet-mapping>
+
 </web-app>
