@@ -11,7 +11,7 @@
     <tr>
         <th>ID</th>
         <th>Login</th>
-        <th>Option</th>
+        <th>Action</th>
     </tr>
     <c:forEach var="user" items="${users}">
         <tr>
