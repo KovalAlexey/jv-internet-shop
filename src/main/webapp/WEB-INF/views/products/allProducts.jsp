@@ -30,7 +30,6 @@
         </tr>
     </c:forEach>
 </table>
-<a href="${pageContext.request.contextPath}/products/add">Add new product</a>
 <a href="${pageContext.request.contextPath}/">Back to main</a>
 </body>
 </html>

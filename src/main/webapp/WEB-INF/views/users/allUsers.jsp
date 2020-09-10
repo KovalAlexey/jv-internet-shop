@@ -27,7 +27,6 @@
         </tr>
     </c:forEach>
 </table>
-<a href="${pageContext.request.contextPath}/users/registration">Add user</a>
 <a href="${pageContext.request.contextPath}/">Back to main</a>
 </body>
 </html>
