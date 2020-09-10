@@ -61,11 +61,11 @@ public class Application {
         * sout final list
          */
 
-        User vasia = new User("Vasia", "vasia86", "password");
-        User petia = new User("Petia", "vasia86", "password");
-        User masha = new User("Masha", "maha123", "password");
-        User dasha = new User("Dasha", "dashka", "password");
-        User sasha = new User("Sasha", "sashulia", "password");
+        User vasia = new User("Vasia", "vasia", "123");
+        User petia = new User("Petia", "petia", "123");
+        User masha = new User("Masha", "masha", "123");
+        User dasha = new User("Dasha", "dasha", "123");
+        User sasha = new User("Sasha", "sasha", "233");
 
         List<User> userList = List.of(vasia, petia, dasha, masha, sasha);
         for (User user : userList) {
