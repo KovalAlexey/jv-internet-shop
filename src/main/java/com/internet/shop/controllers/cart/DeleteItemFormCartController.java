@@ -24,7 +24,6 @@ public class DeleteItemFormCartController extends HttpServlet {
             throws ServletException, IOException {
         Long productId = Long.valueOf(req.getParameter("productId"));
         Product product = productService.get(productId);
-        //Long userId = Long.valueOf(req.getParameter("userId"));
         ShoppingCart cart = cartService.getByUserId(USER_ID);
         cartService.deleteProduct(cart, product);
 

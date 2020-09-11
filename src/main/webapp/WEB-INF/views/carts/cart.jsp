@@ -31,7 +31,7 @@
         </tr>
     </c:forEach>
 </table>
-<a href="${pageContext.request.contextPath}/users/order/complete">Complete</a>
+<a href="${pageContext.request.contextPath}/order/complete">Complete</a>
 <a href="${pageContext.request.contextPath}/">Back to main</a>
 </body>
 </html>

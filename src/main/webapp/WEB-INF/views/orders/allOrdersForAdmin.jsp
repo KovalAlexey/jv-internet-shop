@@ -25,7 +25,7 @@
                 <c:out value="${order.products}"/>
             </td>
             <td>
-                <a href="${pageContext.request.contextPath}/users/order/delete?id=${order.id}">Delete</a>
+                <a href="${pageContext.request.contextPath}/order/delete?id=${order.id}">Delete</a>
             </td>
         </tr>
     </c:forEach>

@@ -130,27 +130,27 @@
 
     <servlet-mapping>
         <servlet-name>allOrdersAdmin</servlet-name>
-        <url-pattern>/users/order/admin</url-pattern>
+        <url-pattern>/orders/admin</url-pattern>
     </servlet-mapping>
 
     <servlet>
         <servlet-name>allOrders</servlet-name>
-        <servlet-class>com.internet.shop.controllers.order.GetAllOrdersController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.order.GetAllUserOrdersController</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>allOrders</servlet-name>
-        <url-pattern>/users/order</url-pattern>
+        <url-pattern>/orders/by-user</url-pattern>
     </servlet-mapping>
 
     <servlet>
         <servlet-name>completeOrder</servlet-name>
-        <servlet-class>com.internet.shop.controllers.order.AddNewOrderController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.order.CompleteOrderController</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>completeOrder</servlet-name>
-        <url-pattern>/users/order/complete</url-pattern>
+        <url-pattern>/order/complete</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -160,6 +160,6 @@
 
     <servlet-mapping>
         <servlet-name>deleteOrder</servlet-name>
-        <url-pattern>/users/order/delete</url-pattern>
+        <url-pattern>/order/delete</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -21,7 +21,7 @@ public class GetAllOrdersAdminController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        List<Order> orderList = this.orderService.getAll();
+        List<Order> orderList = orderService.getAll();
 
         req.setAttribute("orders", orderList);
         req.getRequestDispatcher("/WEB-INF/views/orders/allOrdersForAdmin.jsp")
