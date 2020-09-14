@@ -11,7 +11,7 @@
     <tr>
         <th>ID</th>
         <th>Login</th>
-        <th>Option</th>
+        <th>Action</th>
     </tr>
     <c:forEach var="user" items="${users}">
         <tr>
@@ -27,7 +27,6 @@
         </tr>
     </c:forEach>
 </table>
-<a href="${pageContext.request.contextPath}/users/registration">Add user</a>
 <a href="${pageContext.request.contextPath}/">Back to main</a>
 </body>
 </html>
