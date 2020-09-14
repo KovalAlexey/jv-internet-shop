@@ -9,7 +9,6 @@
 <form action="${pageContext.request.contextPath}/login" method="post">
     <label>Login</label><input type="text" name="login">
     <label>Password</label><input type="password" name="pwd">
-
     <button type="submit">Login</button>
 </form>
 </body>
