@@ -8,12 +8,13 @@ import com.internet.shop.service.UserService;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
+    private static final String ERROR = "Incorrect username or password!";
     @Inject
     private UserService userService;
 
     @Override
     public User login(String login, String password) throws AuthenticationException {
-        final String ERROR = "Incorrect username or password!";
+
         User userFromDB = userService.findByLogin(login).orElseThrow(() ->
                 new AuthenticationException(ERROR));
 
