@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AuthenticationFilter implements Filter {
-    private static final String USER_ID = "user_Id";
+    private static final String USER_ID = "user_id";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
