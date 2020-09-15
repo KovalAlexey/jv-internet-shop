@@ -13,12 +13,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User login(String login, String password) throws AuthenticationException {
+        final String error = "Incorrect username or password!";
         User userFromDB = userService.findByLogin(login).orElseThrow(() ->
-                new AuthenticationException("Incorrect username or password!"));
+                new AuthenticationException(error));
 
         if (userFromDB.getPassword().equals(password)) {
             return userFromDB;
         }
-        throw new AuthenticationException("Incorrect username or password!");
+        throw new AuthenticationException(error);
     }
 }
