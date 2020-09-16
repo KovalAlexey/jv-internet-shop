@@ -25,7 +25,7 @@ public class DeleteItemFormCartController extends HttpServlet {
         Long productId = Long.valueOf(req.getParameter("productId"));
         Product product = productService.get(productId);
         ShoppingCart cart = cartService
-                .getByUserId((Long )req.getSession().getAttribute(LoginController.USER_ID));
+                .getByUserId((Long)req.getSession().getAttribute(LoginController.USER_ID));
         cartService.deleteProduct(cart, product);
 
         resp.sendRedirect(req.getContextPath() + "/shopping-cart/products");
