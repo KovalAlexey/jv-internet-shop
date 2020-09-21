@@ -64,7 +64,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
                 allProducts.add(product);
             }
         } catch (SQLException e) {
-            throw new DataProcessException("Can't execute query!", e);
+            throw new DataProcessException("Can't get all products!", e);
         }
         return allProducts;
     }
