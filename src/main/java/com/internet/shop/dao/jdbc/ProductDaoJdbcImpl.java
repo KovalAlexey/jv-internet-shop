@@ -5,12 +5,11 @@ import com.internet.shop.exceptions.DataProcessException;
 import com.internet.shop.lib.Dao;
 import com.internet.shop.model.Product;
 import com.internet.shop.util.ConnectionUtil;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,22 +19,22 @@ public class ProductDaoJdbcImpl implements ProductDao {
     @Override
     public Product create(Product item) {
         String query = "INSERT INTO products (productName, price) VALUES (?, ?)";
-        Product product = new Product(item.getName(), item.getPrice());
         try (Connection connection = ConnectionUtil.getConnection()) {
 
-            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = connection
+                    .prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, item.getName());
             statement.setDouble(2, item.getPrice());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                item.setId(resultSet.getLong(1));
+                item.setId(resultSet.getLong("product_id"));
             }
+            return item;
         } catch (SQLException e) {
             throw new DataProcessException("Can't create product!", e);
 
         }
-        return product;
     }
 
     @Override
