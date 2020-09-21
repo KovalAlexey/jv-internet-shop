@@ -20,7 +20,6 @@ public class ProductDaoJdbcImpl implements ProductDao {
     public Product create(Product product) {
         String query = "INSERT INTO products (productName, price) VALUES (?, ?)";
         try (Connection connection = ConnectionUtil.getConnection()) {
-
             PreparedStatement statement = connection
                     .prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, product.getName());
@@ -32,38 +31,36 @@ public class ProductDaoJdbcImpl implements ProductDao {
             }
             return product;
         } catch (SQLException e) {
-            throw new DataProcessException("Can't create product!", e);
+            throw new DataProcessException("Can't create product " + product.getName(), e);
         }
     }
 
     @Override
     public Optional<Product> get(Long productId) {
-        String query = "SELECT * FROM products WHERE product_id = ? AND deleted != 1";
+        String query = "SELECT * FROM products WHERE product_id = ? AND deleted = FALSE";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, productId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Product product = productFromSet(resultSet);
-                product.setId(productId);
+                Product product = getProductFromSet(resultSet);
                 return Optional.of(product);
             }
         } catch (SQLException e) {
-            throw new DataProcessException("Can't find product with id", e);
+            throw new DataProcessException("Can't find product with id " + productId, e);
         }
         return Optional.empty();
     }
 
     @Override
     public List<Product> getAll() {
-        String query = "SELECT * FROM products WHERE deleted != 1";
+        String query = "SELECT * FROM products WHERE deleted = FALSE";
         List<Product> allProducts = new ArrayList<>();
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                Product product = productFromSet(resultSet);
-                product.setId(resultSet.getLong("product_id"));
+                Product product = getProductFromSet(resultSet);
                 allProducts.add(product);
             }
         } catch (SQLException e) {
@@ -89,24 +86,25 @@ public class ProductDaoJdbcImpl implements ProductDao {
 
     @Override
     public boolean delete(Long productId) {
-        String query = "UPDATE products SET deleted = true WHERE product_id = ?";
+        String query = "UPDATE products SET deleted = TRUE WHERE product_id = ?";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, productId);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new DataProcessException("Can't execute update query!", e);
+            throw new DataProcessException("Can't execute update product!", e);
         }
     }
 
-    private Product productFromSet(ResultSet resultSet) {
+    private Product getProductFromSet(ResultSet resultSet) {
         try {
             String productName = resultSet.getString("productName");
             double price = resultSet.getDouble("price");
-            return new Product(productName, price);
+            Product product = new Product(productName, price);
+            product.setId(resultSet.getLong("product_id"));
+            return product;
         } catch (SQLException e) {
-            throw new DataProcessException("Can't generate product...", e);
+            throw new DataProcessException("Can't retrieve product from ResultSet", e);
         }
     }
 }
