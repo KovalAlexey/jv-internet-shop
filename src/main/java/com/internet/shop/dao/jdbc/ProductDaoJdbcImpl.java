@@ -38,7 +38,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
 
     @Override
     public Optional<Product> get(Long productId) {
-        String query = "SELECT * FROM products WHERE product_id = ?";
+        String query = "SELECT * FROM products WHERE product_id = ? AND deleted != 1";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, productId);
@@ -56,7 +56,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        String query = "SELECT * FROM products";
+        String query = "SELECT * FROM products WHERE deleted != 1";
         List<Product> allProducts = new ArrayList<>();
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
