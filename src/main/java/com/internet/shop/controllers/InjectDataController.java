@@ -46,10 +46,10 @@ public class InjectDataController extends HttpServlet {
         userService.create(alice);
         cartService.create((new ShoppingCart(alice.getId())));
 
-        productService.create(new Product("iPhone", 1200));
-        productService.create(new Product("MacBook", 2000));
-        productService.create(new Product("Apple Watch 6", 999));
-        productService.create(new Product("new iPad", 800));
+//        productService.create(new Product("iPhone", 1200));
+//        productService.create(new Product("MacBook", 2000));
+//        productService.create(new Product("Apple Watch 6", 999));
+//        productService.create(new Product("new iPad", 800));
         req.getRequestDispatcher("/WEB-INF/views/injectData.jsp").forward(req, resp);
     }
 }
