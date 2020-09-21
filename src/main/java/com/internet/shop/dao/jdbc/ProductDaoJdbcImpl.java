@@ -17,36 +17,35 @@ import java.util.Optional;
 @Dao
 public class ProductDaoJdbcImpl implements ProductDao {
     @Override
-    public Product create(Product item) {
+    public Product create(Product product) {
         String query = "INSERT INTO products (productName, price) VALUES (?, ?)";
         try (Connection connection = ConnectionUtil.getConnection()) {
 
             PreparedStatement statement = connection
                     .prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, item.getName());
-            statement.setDouble(2, item.getPrice());
+            statement.setString(1, product.getName());
+            statement.setDouble(2, product.getPrice());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                item.setId(resultSet.getLong("product_id"));
+                product.setId(resultSet.getLong(1));
             }
-            return item;
+            return product;
         } catch (SQLException e) {
             throw new DataProcessException("Can't create product!", e);
-
         }
     }
 
     @Override
-    public Optional<Product> get(Long itemId) {
+    public Optional<Product> get(Long productId) {
         String query = "SELECT * FROM products WHERE product_id = ?";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, itemId);
+            statement.setLong(1, productId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Product product = productFromSet(resultSet);
-                product.setId(itemId);
+                product.setId(productId);
                 return Optional.of(product);
             }
         } catch (SQLException e) {
@@ -74,26 +73,26 @@ public class ProductDaoJdbcImpl implements ProductDao {
     }
 
     @Override
-    public Product update(Product item) {
+    public Product update(Product product) {
         String query = "UPDATE products SET productName = ?, price = ? WHERE product_id = ?";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, item.getName());
-            statement.setDouble(2, item.getPrice());
-            statement.setLong(3, item.getId());
+            statement.setString(1, product.getName());
+            statement.setDouble(2, product.getPrice());
+            statement.setLong(3, product.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DataProcessException("Can't update product", e);
         }
-        return item;
+        return product;
     }
 
     @Override
-    public boolean delete(Long itemId) {
+    public boolean delete(Long productId) {
         String query = "UPDATE products SET deleted = true WHERE product_id = ?";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, itemId);
+            statement.setLong(1, productId);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
