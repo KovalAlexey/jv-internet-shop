@@ -2,7 +2,6 @@ package com.internet.shop.controllers;
 
 import com.internet.shop.lib.Injector;
 import com.internet.shop.model.Role;
-import com.internet.shop.model.ShoppingCart;
 import com.internet.shop.model.User;
 import com.internet.shop.service.ProductService;
 import com.internet.shop.service.ShoppingCartService;
@@ -30,20 +29,6 @@ public class InjectDataController extends HttpServlet {
         admin.setPassword("123");
         admin.setRoles(Set.of(Role.of("ADMIN")));
         userService.create(admin);
-
-        User bob = new User("Bob");
-        bob.setLogin("bob");
-        bob.setPassword("258");
-        bob.setRoles(Set.of(Role.of("USER")));
-        userService.create(bob);
-        cartService.create(new ShoppingCart(bob.getId()));
-
-        User alice = new User("Alice");
-        alice.setLogin("alice");
-        alice.setPassword("456");
-        alice.setRoles(Set.of(Role.of("USER")));
-        userService.create(alice);
-        cartService.create((new ShoppingCart(alice.getId())));
 
         req.getRequestDispatcher("/WEB-INF/views/injectData.jsp").forward(req, resp);
     }

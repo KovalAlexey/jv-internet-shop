@@ -15,6 +15,13 @@ public class User {
         this.password = password;
     }
 
+    public User(String name, String login, String password, Set<Role> roles) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.roles = roles;
+    }
+
     public User(String name) {
         this.name = name;
     }
