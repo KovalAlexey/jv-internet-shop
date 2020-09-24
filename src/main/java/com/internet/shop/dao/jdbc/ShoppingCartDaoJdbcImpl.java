@@ -44,7 +44,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
             statement.setLong(1, cartId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                ShoppingCart cart = getCartFromSet(resultSet);
+                ShoppingCart cart = getCartFromSet(resultSet, connection);
                 return Optional.of(cart);
             }
             return Optional.empty();
@@ -61,7 +61,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                ShoppingCart cart = getCartFromSet(resultSet);
+                ShoppingCart cart = getCartFromSet(resultSet, connection);
                 return Optional.of(cart);
             }
             return Optional.empty();
@@ -77,7 +77,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, cart.getId());
             statement.executeUpdate();
-            addProductsToCart(cart);
+            addProductsToCart(cart, connection);
             return cart;
         } catch (SQLException e) {
             throw new DataProcessException("Can't update cart with id " + cart.getId(), e);
@@ -104,7 +104,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                shoppingCarts.add(getCartFromSet(resultSet));
+                shoppingCarts.add(getCartFromSet(resultSet, connection));
             }
             return shoppingCarts;
         } catch (SQLException e) {
@@ -112,47 +112,41 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
         }
     }
 
-    private void addProductsToCart(ShoppingCart cart) {
+    private void addProductsToCart(ShoppingCart cart, Connection connection) throws SQLException {
         String query = "INSERT INTO shopping_carts_products (cart_id, product_id)"
                 + " VALUES (?, ?)";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
-            for (Product product : cart.getProducts()) {
-                statement.setLong(1, cart.getId());
-                statement.setLong(2, product.getId());
-                statement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            throw new DataProcessException("Can't add products to cart with id " + cart.getId(), e);
+        PreparedStatement statement = connection.prepareStatement(query);
+        for (Product product : cart.getProducts()) {
+            statement.setLong(1, cart.getId());
+            statement.setLong(2, product.getId());
+            statement.executeUpdate();
         }
     }
 
-    private ShoppingCart getCartFromSet(ResultSet resultSet)
+    private ShoppingCart getCartFromSet(ResultSet resultSet, Connection connection)
             throws SQLException {
         Long cartId = resultSet.getLong("cart_id");
         Long userId = resultSet.getLong("user_id");
-        List<Product> products = getProductsByCart(cartId);
+        List<Product> products = getProductsByCart(cartId, connection);
         return new ShoppingCart(cartId, products, userId);
     }
 
-    private List<Product> getProductsByCart(Long cartId) {
-        String query = "SELECT products.product_id, product_name, product_price FROM products "
-                + "INNER JOIN shopping_carts_products "
-                + "ON shopping_carts_products.product_id = products.product_id "
-                + "WHERE shopping_carts_products.cart_id = ?";
+    private List<Product> getProductsByCart(Long cartId, Connection connection)
+            throws SQLException {
+        String query = "SELECT p.product_id, product_name, product_price "
+                + "FROM products p "
+                + "INNER JOIN shopping_carts_products scp "
+                + "ON scp.product_id = p.product_id "
+                + "WHERE scp.cart_id = ?";
         List<Product> products = new ArrayList<>();
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, cartId);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                products.add(new Product(resultSet.getLong("product_id"),
-                        resultSet.getString("product_name"),
-                        resultSet.getDouble("product_price")));
-            }
-            return products;
-        } catch (SQLException e) {
-            throw new DataProcessException("Can't get products for cart " + cartId, e);
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setLong(1, cartId);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            products.add(new Product(resultSet.getLong("product_id"),
+                    resultSet.getString("product_name"),
+                    resultSet.getDouble("product_price")));
         }
+        return products;
     }
 }
