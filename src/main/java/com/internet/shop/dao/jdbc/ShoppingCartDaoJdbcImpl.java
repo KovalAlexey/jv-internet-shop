@@ -21,9 +21,9 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart create(ShoppingCart cart) {
         String query = "INSERT INTO shopping_carts (user_id) VALUES (?)";
-        try (Connection connection = ConnectionUtil.getConnection()) {
+        try (Connection connection = ConnectionUtil.getConnection();
             PreparedStatement statement = connection
-                    .prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, cart.getUserId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -39,8 +39,8 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     @Override
     public Optional<ShoppingCart> get(Long cartId) {
         String query = "SELECT * FROM shopping_carts WHERE cart_id = ? AND is_deleted = FALSE";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, cartId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -56,8 +56,8 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     @Override
     public Optional<ShoppingCart> getByUserId(Long userId) {
         String query = "SELECT * FROM shopping_carts WHERE user_id = ? AND is_deleted = FALSE";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -73,8 +73,8 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart update(ShoppingCart cart) {
         String query = "DELETE FROM shopping_carts_products WHERE cart_id = ?";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, cart.getId());
             statement.executeUpdate();
             addProductsToCart(cart, connection);
@@ -87,8 +87,8 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     @Override
     public boolean delete(Long cartId) {
         String query = "UPDATE shopping_carts SET is_deleted = TRUE WHERE cart_id = ?";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, cartId);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -100,8 +100,8 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     public List<ShoppingCart> getAll() {
         String query = "SELECT * FROM shopping_carts WHERE is_deleted = FALSE";
         List<ShoppingCart> shoppingCarts = new ArrayList<>();
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 shoppingCarts.add(getCartFromSet(resultSet, connection));
