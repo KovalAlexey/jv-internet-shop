@@ -121,6 +121,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
             statement.setLong(2, product.getId());
             statement.executeUpdate();
         }
+        statement.close();
     }
 
     private ShoppingCart getCartFromSet(ResultSet resultSet, Connection connection)
@@ -147,6 +148,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
                     resultSet.getString("product_name"),
                     resultSet.getDouble("product_price")));
         }
+        statement.close();
         return products;
     }
 }

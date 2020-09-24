@@ -140,6 +140,8 @@ public class UserDaoJdbcImpl implements UserDao {
             statementForRoles.setLong(2, role.getId());
             statementForRoles.executeUpdate();
         }
+        statementForIds.close();
+        statementForRoles.close();
     }
 
     private Set<Role> getUserRole(Long userId, Connection connection)
@@ -154,6 +156,7 @@ public class UserDaoJdbcImpl implements UserDao {
         while (resultSet.next()) {
             roles.add(Role.of(resultSet.getString("role_name")));
         }
+        statement.close();
         return roles;
     }
 
