@@ -23,7 +23,7 @@ public class UserDaoJdbcImpl implements UserDao {
     public Optional<User> findByLogin(String login) {
         String query = "SELECT * FROM users WHERE user_login = ? AND is_deleted = FALSE";
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -40,8 +40,8 @@ public class UserDaoJdbcImpl implements UserDao {
     public User create(User user) {
         String query = "INSERT INTO users (user_name, password, user_login) VALUES (?, ?, ?)";
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection
-                    .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement statement = connection
+                        .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getLogin());
@@ -64,7 +64,7 @@ public class UserDaoJdbcImpl implements UserDao {
                 + "JOIN roles ON users_roles.role_id = roles.role_id "
                 + "WHERE users.user_id = ? AND is_deleted = FALSE";
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -82,7 +82,7 @@ public class UserDaoJdbcImpl implements UserDao {
         String query = "SELECT * FROM users WHERE is_deleted = FALSE";
         List<User> allUsers = new ArrayList<>();
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 User user = getUserFromSet(resultSet, connection);
@@ -99,7 +99,7 @@ public class UserDaoJdbcImpl implements UserDao {
         String query = "UPDATE users SET user_name = ?, user_login = ?, password = ? "
                 + "WHERE user_id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getPassword());
@@ -116,7 +116,7 @@ public class UserDaoJdbcImpl implements UserDao {
         String query = "UPDATE users "
                 + "SET is_deleted = TRUE WHERE user_id = ? AND is_deleted = FALSE";
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, userId);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {

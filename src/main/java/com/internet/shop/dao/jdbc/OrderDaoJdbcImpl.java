@@ -23,7 +23,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
         String query = "SELECT * FROM orders WHERE user_id = ? AND is_deleted = FALSE";
         List<Order> orders = new ArrayList<>();
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -40,7 +40,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
         String query = "SELECT * FROM orders WHERE is_deleted = FALSE";
         List<Order> orders = new ArrayList<>();
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 orders.add(getOrderFromSet(resultSet, connection));
@@ -55,8 +55,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
     public Order create(Order order) {
         String query = "INSERT INTO orders (user_id) VALUES (?)";
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection
-                    .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement statement = connection
+                        .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, order.getUserId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -74,7 +74,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
     public Optional<Order> get(Long orderId) {
         String query = "SELECT * FROM orders WHERE order_id = ? AND is_deleted = FALSE";
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, orderId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -90,7 +90,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
     public Order update(Order order) {
         String query = "DELETE FROM orders_products WHERE order_id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, order.getId());
             addProductsToOrder(order, connection);
             return order;
