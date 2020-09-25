@@ -77,6 +77,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, cart.getId());
             statement.executeUpdate();
+            statement.close();
             addProductsToCart(cart, connection);
             return cart;
         } catch (SQLException e) {

@@ -50,6 +50,7 @@ public class UserDaoJdbcImpl implements UserDao {
             if (resultSet.next()) {
                 user.setId(resultSet.getLong(1));
             }
+            statement.close();
             setUserRoles(user, connection);
             return user;
         } catch (SQLException e) {
