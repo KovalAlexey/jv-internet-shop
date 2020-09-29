@@ -17,9 +17,7 @@ public class User {
     }
 
     public User(String name, String login, String password, Set<Role> roles, byte[] salt) {
-        this.name = name;
-        this.login = login;
-        this.password = password;
+        this(name, login, password);
         this.roles = roles;
         this.salt = salt;
     }
