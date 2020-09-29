@@ -7,6 +7,7 @@ public class User {
     private String name;
     private String login;
     private String password;
+    private byte[] salt;
     private Set<Role> roles;
 
     public User(String name, String login, String password) {
@@ -15,11 +16,12 @@ public class User {
         this.password = password;
     }
 
-    public User(String name, String login, String password, Set<Role> roles) {
+    public User(String name, String login, String password, Set<Role> roles, byte[] salt) {
         this.name = name;
         this.login = login;
         this.password = password;
         this.roles = roles;
+        this.salt = salt;
     }
 
     public User(String name) {
@@ -56,6 +58,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
     }
 
     @Override

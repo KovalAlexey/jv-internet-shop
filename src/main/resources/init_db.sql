@@ -20,6 +20,7 @@ CREATE TABLE `internet-shop`.`users`
     `user_login` VARCHAR(256) NOT NULL,
     `password`   VARCHAR(256) NOT NULL,
     `is_deleted` TINYINT      NULL DEFAULT 0,
+    `user_salt` BLOB NOT NULL,
     PRIMARY KEY (`user_id`),
     UNIQUE KEY `user_login_UNIQUE` (`user_login`)
 );
