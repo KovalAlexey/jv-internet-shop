@@ -38,7 +38,8 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User create(User user) {
-        String query = "INSERT INTO users (user_name, password, user_login, user_salt) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO users (user_name, password, user_login, user_salt) "
+                + "VALUES (?, ?, ?, ?)";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection
                         .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -98,7 +99,8 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User update(User user) {
-        String query = "UPDATE users SET user_name = ?, user_login = ?, password = ?, user_salt = ? "
+        String query = "UPDATE users "
+                + "SET user_name = ?, user_login = ?, password = ?, user_salt = ? "
                 + "WHERE user_id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
@@ -164,13 +166,17 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     private User getUserFromSet(ResultSet resultSet, Connection connection) throws SQLException {
-
         Long userId = resultSet.getLong("user_id");
         String userName = resultSet.getString("user_name");
         String userLogin = resultSet.getString("user_login");
         String userPassword = resultSet.getString("password");
         byte[] userSalt = resultSet.getBytes("user_salt");
-        User user = new User(userName, userLogin, userPassword, getUserRole(userId, connection), userSalt);
+        User user =
+                new User(userName,
+                        userLogin,
+                        userPassword,
+                        getUserRole(userId, connection),
+                        userSalt);
         user.setId(userId);
         return user;
     }
