@@ -38,13 +38,15 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User create(User user) {
-        String query = "INSERT INTO users (user_name, password, user_login) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (user_name, password, user_login, salt) "
+                + "VALUES (?, ?, ?, ?)";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection
                         .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getLogin());
+            statement.setBytes(4, user.getSalt());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -97,14 +99,16 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User update(User user) {
-        String query = "UPDATE users SET user_name = ?, user_login = ?, password = ? "
+        String query = "UPDATE users "
+                + "SET user_name = ?, user_login = ?, password = ?, salt = ? "
                 + "WHERE user_id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getPassword());
-            statement.setLong(4, user.getId());
+            statement.setBytes(4, user.getSalt());
+            statement.setLong(5, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DataProcessException("Cant update user with login " + user.getLogin(), e);
@@ -162,12 +166,14 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     private User getUserFromSet(ResultSet resultSet, Connection connection) throws SQLException {
-
         Long userId = resultSet.getLong("user_id");
         String userName = resultSet.getString("user_name");
         String userLogin = resultSet.getString("user_login");
         String userPassword = resultSet.getString("password");
-        User user = new User(userName, userLogin, userPassword, getUserRole(userId, connection));
+        byte[] userSalt = resultSet.getBytes("salt");
+        User user = new User(userName, userLogin, userPassword);
+        user.setRoles(getUserRole(userId, connection));
+        user.setSalt(userSalt);
         user.setId(userId);
         return user;
     }
