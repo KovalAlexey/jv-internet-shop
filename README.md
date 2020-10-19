@@ -6,7 +6,7 @@ The project builds on an N-tier architecture and consists of the controller leve
 ![](https://mate-academy.github.io/jv-program-fulltime/02_jdbc_and_servlets/homework/content/project_structure_diagram.png)
 Servlets run on Tomcat server to handle HTTP requests. The DAO layer includes implementation for the JDBC. 
 
-###UML Model Diagram
+**UML Model Diagram**
 ![UML Models Diagram](https://mate-academy.github.io/jv-program-fulltime/02_jdbc_and_servlets/homework/content/internet-shop-diagram-v1.png)
 
 This project also includes custom-made annotations and an injector, which utilizes Reflection API. 
