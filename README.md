@@ -24,7 +24,7 @@ This project also includes custom-made annotations and an injector, which utiliz
   - view all orders placed at the store; 
   - edit the store's item list.
   
-##Technologies used:
+## Technologies used:
  - Java 11
  - Maven 3.1.1
  - Javax Servlet API 3.1.0
