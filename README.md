@@ -3,11 +3,11 @@ A pet project shop with basic functionality for user, products and admin written
 
 ## Project structure
 The project builds on an N-tier architecture and consists of the controller level which handle requests, service layer with business logic, DAO layer for access to DB and DB itself.
-![](https://mate-academy.github.io/jv-program-fulltime/02_jdbc_and_servlets/homework/content/project_structure_diagram.png)
+![](src/main/resources/img/project_structure_diagram.png)
 Servlets run on Tomcat server to handle HTTP requests. The DAO layer includes implementation for the JDBC. 
 
 **UML Model Diagram**
-![UML Models Diagram](https://mate-academy.github.io/jv-program-fulltime/02_jdbc_and_servlets/homework/content/internet-shop-diagram-v1.png)
+![UML Models Diagram](src/main/resources/img/internet-shop-diagram-v1.png)
 
 This project also includes custom-made annotations and an injector, which utilizes Reflection API. 
 
